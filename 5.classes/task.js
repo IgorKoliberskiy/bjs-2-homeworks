@@ -1,141 +1,158 @@
 class PrintEditionItem {
-    constructor(name, releaseDate, pagesCount) {
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.pagesCount = pagesCount;
-        this.state = 100;
-        this.type = null;
-    }
+  constructor(name, releaseDate, pagesCount) {
+    this.name = name;
+    this.releaseDate = releaseDate;
+    this.pagesCount = pagesCount;
+    this.state = 100;
+    this.type = null;    
+  }
 
-    fix() {
-        this.state = this.state * 1.5;
-    }
+  get state() {
+    return this._state;
+  }
 
-    set state(instanceState) {
-        if (instanceState < 0) {
-            this._state = 0;
-        } else if (instanceState > 100) {
-            this._state = 100;
-        } else {
-            this._state = instanceState;  
-        }
-    }
+  set state(_state) {
+    if (_state < 0) {
+      return this._state = 0;
+    } else if (_state > 100){
+      return this._state = 100;
+    } else {
+      return this._state = _state;
+    }    
+  } 
 
-    get state() {
-        return this._state;
-    }
+  fix() {        
+    return this.state = this.state * 1.5;
+  }
 }
-
+  
 class Magazine extends PrintEditionItem {
-    constructor(name, releaseDate, pagesCount) {
-        super(name, releaseDate, pagesCount);
-        this.type = 'magazine';
-    }
+  constructor(name, releaseDate, pagesCount, state) {
+    super(name, releaseDate, pagesCount, state);
+    this.type = 'magazine';
+  }
 }
-
+  
 class Book extends PrintEditionItem {
-    constructor(author, name, releaseDate, pagesCount) {
-        super(name, releaseDate, pagesCount);
-        this.author = author;
-        this.type = 'book';
-    }
+  constructor(author, name, releaseDate, pagesCount, state) {
+    super(name, releaseDate, pagesCount, state);
+    this.author = author;
+    this.type = 'book';
+  }
 }
-
+  
 class NovelBook extends Book {
-    constructor(author, name, releaseDate, pagesCount) {
-        super(author, name, releaseDate, pagesCount);
-        this.type = 'novel';
-    }
+  constructor(author, name, releaseDate, pagesCount, state) {
+    super(author, name, releaseDate, pagesCount, state);
+    this.type = 'novel';
+  }
 }
-
+  
 class FantasticBook extends Book {
-    constructor(author, name, releaseDate, pagesCount) {
-        super(author, name, releaseDate, pagesCount);
-        this.type = 'fantastic';
-    }
+  constructor(author, name, releaseDate, pagesCount, state) {
+    super(author, name, releaseDate, pagesCount, state);
+    this.type = 'fantastic';
+  }
 }
-
+  
 class DetectiveBook extends Book {
-    constructor(author, name, releaseDate, pagesCount) {
-        super(author, name, releaseDate, pagesCount);
-        this.type = 'detective';
-    }
+  constructor(author, name, releaseDate, pagesCount, state) {
+    super(author, name, releaseDate, pagesCount, state);
+    this.type = 'detective';
+  }
 }
-
+  
 class Library {
-    constructor(name) {
-        this.name = name;
-        this.books = [];
+  constructor(name) {
+    this.name = name;
+    this.books = [];
+  }
+  
+  addBook(book) {
+    if (book.state > 30) {
+      this.books.push(book);
     }
-
-    addBook(book) {
-        if (book.state > 30) {
-        this.books.push(book);
-        }
+  }
+  
+  findBookBy(type, value) {    
+    let book = this.books.find(book => book[type] === value);
+  
+    if (book === undefined) {
+      return null;
     }
-
-    findBookBy(type, value) {
-        let book = this.books.find(book => book[type] === value);
-
-        if (book === undefined) {
-        return null;
-        }
-
-        return book; 
+  
+    return book;
+  }
+  
+  giveBookByName(bookName) {
+    let book = this.books.find(book => book.name === bookName);
+      
+    if (book === undefined) {
+      return null;
+    } else {
+      this.books.splice(this.books.indexOf(book), 1);
+      return book;
     }
-
-    giveBookByName(bookName) {
-        let book = this.books.find(book => book.name === bookName);
-        
-        if (book === undefined) {
-        return null;
-        } else {
-        this.books.splice(this.books.indexOf(book), 1);
-        return book;
-        } 
-    }
+  }
 }
 
 class Student {
-	constructor(name, gender, age) {
-		this.name = name;
-		this.gender = gender;
-		this.age = age;
-	}
+  constructor(name) {
+    this.name = name;
+    this.marks = {};
+  }
 
-	setSubject(subjectName) {
-		this.subject = subjectName;
-	}
+  setSubject(subjectName) {
+    this.subject = subjectName;
+  }
 
-	addMark(mark) {
-		if (this.marks === undefined) {
-		    this.marks = [mark];
-		} else {
-		    this.marks.push(mark);
-		}
-	}
+  addMark(mark, subjectName) {
+    if (mark < 0 || mark > 5){
+      console.log('Ошибка, оценка должна быть числом от 1 до 5');
+      return;
+    }
+    if (this.marks[subjectName] === undefined) {
+      this.marks[subjectName] = [mark];
+    } else {
+      this.marks[subjectName].push(mark);
+    }
+  }
 
-	addMarks(...mark) {
-		if (this.marks === undefined) {
-    		this.marks = [...mark];
-  		} else {
-   			this.marks.push(...mark);
-  		}
-	}
+  addMarks(...marks) {
+    if (this.marks === undefined) {
+      this.marks = [...marks];
+    } else {
+      this.marks.push(...marks);
+    }
+  }
 
-	getAverageBySubject() {
-		let subjectMarks = 0;
-        for (let i = 0; i < this.marks.length; i += 1) {
-		    subjectMarks += this.marks[i];
-		}
-		return subjectMarks / this.marks.length
-	}	
+  getAverageBySubject(subjectName) {
+    if (this.marks[subjectName] === undefined) {
+      console.log('Несуществующий предмет');
+      return;
+    }
+    const sum = this.marks[subjectName].reduce((acc, item) => acc + item);
+    const averageBySubject = sum / this.marks[subjectName].length;
+    console.log(`Средний балл по предмету ${subjectName} ${averageBySubject}`);
+    return averageBySubject;
+  }
 
-	getAverage() {
-		let sum = 0;
-		for (let i = 0; i < this.marks.length; i += 1) {
-		    sum += this.marks[i];
-		}
-		return sum / this.marks.length
-	}
+  getAverage() {
+    const arr = Object.values(this.marks);    
+    const res = arr.reduce((acc, item) => acc.concat(item));
+    const summ = res.reduce((acc, item) => acc + item);
+    const average = summ / res.length;
+    console.log(`Средний балл по всем предметам ${average}`);
+    return average;
+  }
+    
+  exclude(reason) {
+    this.excluded = reason;
+    if (this.excluded !== undefined) {
+      delete this.subject;
+      delete this.marks;
+    }
+    return;
+  }
 }
+
