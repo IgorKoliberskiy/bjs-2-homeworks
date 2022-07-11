@@ -22,7 +22,7 @@ class Triangle {
     this.c = c;
 
     if ((a + b) <= c || (a + c) <= b || (b + c) <= a) {
-      const error = new Error('Треугольник с такими сторонами не существует')
+      const error = new Error('Треугольник с такими сторонами не существует');
       throw error;
     }
   }
@@ -41,7 +41,7 @@ class Triangle {
 
 function getTriangle(a, b, c) {
   try {
-    return new Triangle(a, b, c) 
+    return new Triangle(a, b, c);
     } catch (error) {
     return {
       getPerimeter() {
