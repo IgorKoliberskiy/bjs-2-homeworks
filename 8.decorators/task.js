@@ -37,14 +37,13 @@ function debounceDecoratorNew(func, delay) {
 function debounceDecorator2(func,delay) {
 	let timeout = null;
 	
-	function wrapper (...args){
+	function wrapper (...args) {
 		if (timeout === null) {
 			func(...args);
-			clearTimeout(timeout);
-			timeout = setTimeout(() => func(...args), delay)
-		} 
+		}
+    clearTimeout(timeout);
+		timeout = setTimeout(() => func(...args), delay);
 		wrapper.count++;
 	} 
-	wrapper.count = 0;
 	return wrapper;
 }
